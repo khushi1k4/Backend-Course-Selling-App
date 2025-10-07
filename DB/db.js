@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
-mongoose.connect(process.env.MONGO_URL);
+mongoose.connect(process.env.MONGO_URL); //changed connection string and make it hidden store 
 
 const AdminSchema = new mongoose.Schema({
     username : String,
