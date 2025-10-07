@@ -1,4 +1,3 @@
-// mongodb+srv://admin:I40CQXNIt8sgMoRV@cluster0.4db7ikk.mongodb.net/
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
 mongoose.connect(process.env.MONGO_URL);
