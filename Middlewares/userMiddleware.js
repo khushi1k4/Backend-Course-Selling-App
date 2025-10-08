@@ -25,13 +25,19 @@ async function UserMiddleware(req,res,next){
     //     })
     // }
 
-    const token = req.headers.token;
+    // const token = req.headers.token;
+
+    // STANDARD METHOD of taking token from authorization:-
+    const authorization = req.headers.authorization;
+    const words = authorization.split(" ");
+    const token = words[1]; 
     const decoded = jwt.verify(token, JWT_USERSECRET); 
     //we need JWT_SECRET for specific collection to prform the verify coperation for that particular collection.
     // That's requiring it above
 
     if(decoded){
         req.userId = decoded.id;
+        req.username = decoded.username; //it passes the req.username as decoded.id from above condition check
         next();
     }
     else

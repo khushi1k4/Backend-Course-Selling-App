@@ -128,20 +128,88 @@ router.post("/signin", async function(req,res){
     } 
 })
 
-// - user wants to see the purchased courses or user 
-router.get("/purchases", userMiddleware, async function(req,res){
+// Courses that are being purchased are added in array of purchasedCourse of User schema
+router.post("/courses/:courseId", userMiddleware, async function(req,res){
+    // Extract course ID from request parameters and username from the request object
+    const courseId = req.params.courseId;
+    // const username = req.username;
     const userId = req.userId;
-    const purchases = await Purchase.find({
-        userId
-    })
 
-    const courseData = await Course.find({
-        id: {$in: purchases.map(x => x.courseId )}
-    })
-    res.json({
-        purchases,
-        courseData
-    })
+    // const user = await User.findById({ userId });
+    
+    try {
+        // Update the user document to add the purchased course ID to the user's purchasedCourses array
+        await User.findByIdAndUpdate(
+                userId,
+            {
+                $push: {
+                    purchasedCourses: courseId, // Add course ID to purchasedCourses
+                },
+            }
+        );
+
+        // const courseData = await Course.findById(
+        //     userId,
+        //     {
+        //         $in: {  courseData: user.map(x => x.courseId )}
+        //     }
+        // )
+
+        // Respond with a success message and a 200 OK status
+        res.status(200).json({
+            message: "Course purchased successfully", // Confirm course purchase
+        });
+    } catch (err) {
+        // If the update fails, respond with a 400 Bad Request error
+        return res.status(400).json({
+            message: "Course purchase failed", // Inform the client of purchase failure
+            error: err.message, // Include error message for debugging
+        });
+    }
 })
+
+// - user wants to see his/her total purchased courses 
+// router.get("/purchases", userMiddleware, async function(req,res){
+//     // Extract username from the request object
+//     const username = req.username;
+//     const userId = req.userId;
+
+//     try {
+//         // Find the user document by username
+//         const user = await User.findById({ userId });
+
+//         // If user is not found, respond with a 404 Not Found error
+//         if (!user) {
+//             return res.status(404).json({
+//                 message: "User not found", // Inform the client that the user does not exist
+//             });
+//         }
+
+//         // Fetch courses that the user has purchased
+//         const courses = await Course.findByIdAndUpdate(
+//             userId,
+//             {
+//                 _id: { $in: user.purchasedCourses } // Find courses whose IDs are in the user's purchasedCourses array
+//             }
+//         );
+//         const courseData = await Course.findById(
+//             userId,
+//             {
+//                 id: {  $in: user.map(x => x.courseId )}
+//             }
+//         )
+
+//         // Respond with the list of purchased courses and a 200 OK status code
+//         res.status(200).json({
+//             courses, // Return the array of purchased courses
+//         });
+//     } catch (error) {
+//         // If an error occurs while fetching courses, respond with a detailed error message
+//         return res.status(500).json({
+//             message: "Failed to retrieve purchased courses. Please try again.", // Inform the client of the specific error
+//             error: error.message, // Include the error message for debugging purposes
+//         });
+//     }
+// })
 
 module.exports = router;

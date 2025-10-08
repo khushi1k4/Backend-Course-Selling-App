@@ -10,6 +10,7 @@ router.use(express.json());
 
 const jwt = require("jsonwebtoken");
 
+// COurses that are being purchase by the user, that user info being added into it too
 router.post("/purchase", userMiddleware, async function(req,res){
     const userId = req.body.userId;
     const courseId = req.body.courseId;

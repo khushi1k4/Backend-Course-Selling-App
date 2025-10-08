@@ -108,7 +108,7 @@ router.post("/course", adminMiddleware, async function(req,res){
 })
 
 // - If Admin wants to update the data od Course then we use put HTTP method 
-router.put("/UpdateCourse", adminMiddleware, async function(req,res){
+router.put("/updateCourse", adminMiddleware, async function(req,res){
     const { title, description, price, imageLink, courseId } = req.body; //it is imp to give the courseId in body while req
     const adminId = req.adminId;
 

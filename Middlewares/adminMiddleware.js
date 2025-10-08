@@ -32,12 +32,20 @@ async function adminMiddleware(req,res,next){
     //     })
     // }
     
-    const token = req.headers.token;
+    // const token = req.headers.token;
+    
+    //*********************** STANDARD METHOD of taking token by bearer type authorization :- ******************************
+    const authorization = req.headers.authorization;
+    //authorization => bearer adasdfer.asfbngtvf.trgvbnmkf.rfdscsxa //Bearer makes it more standard
+    const words = authorization.split(" "); 
+    // => ["bearer", "adasdfer.asfbngtvf.trgvbnmkf.rfdscsxa"] through split(" ")
+    const token = words[1]; //we will get the decoded by verification of token where words[1] = "adasdfer.asfbngtvf.trgvbnmkf.rfdscsxa"
+    
     const decoded = jwt.verify(token, JWT_ADMINSECRET);
     //we need JWT_SECRET for specific collection to prform the verify coperation for that particular collection.
     // That's requiring it above
 
-    if(decoded){
+    if(decoded){ // jwt help to save the one db call for accessing the info or data of admin by direct checks of jwt into db
         req.adminId = decoded.id;
         next();
     }
