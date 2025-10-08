@@ -8,16 +8,12 @@ const AdminSchema = new mongoose.Schema({
 })
 
 const UserSchema = new mongoose.Schema({
-    username: String, // Unique username for the user
-    password: String, // User password (should be hashed)
-    email: { type: String, unique: true },
-    purchasedCourses: [ String ]
-        // List of purchased course IDs
-        // {
-        //     type: mongoose.Schema.Types.ObjectId, // Reference to Course model
-        //     ref: "Course",
-        // },
-    
+    username: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    purchasedCourses: [
+        { type: mongoose.Schema.Types.ObjectId, ref: "Course" }
+    ]
 });
 
 const CourseSchema = new mongoose.Schema({

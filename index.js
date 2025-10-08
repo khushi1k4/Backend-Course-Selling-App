@@ -7,7 +7,7 @@ const userRouter = require("./routes/user");
 const courseRouter = require('./routes/course');
 const bodyParser = require("body-parser");
 
-// Zod validation is left.
+// Zod validation is left. (~tried)
 // Use cookies instead of jwt for auth
 // delete the db for different models can be added
 // course content routes and things related can be to do

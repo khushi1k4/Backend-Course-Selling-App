@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const userMiddleware = require("../Middlewares/userMiddleware");
+const adminMiddleware = require("../Middlewares/adminMiddleware");
 const { Course, Purchase } = require("../DB/db");
 
 // const router = express.Router();
@@ -11,7 +11,7 @@ router.use(express.json());
 const jwt = require("jsonwebtoken");
 
 // COurses that are being purchase by the user, that user info being added into it too
-router.post("/purchase", userMiddleware, async function(req,res){
+router.post("/purchase", adminMiddleware, async function(req,res){
     const userId = req.body.userId;
     const courseId = req.body.courseId;
 

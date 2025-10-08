@@ -2,12 +2,11 @@ const express = require("express");
 const router = express.Router();
 
 const userMiddleware = require("../Middlewares/userMiddleware");
-const { User, Course, Purchase } = require("../DB/db");
+const { User } = require("../DB/db");
 
 // const router = express.Router();
 
 const jwt = require("jsonwebtoken");
-// const JWT_USERSECRET = 'khushiuserside'; 
 // => Reason:
 // Why are we using different JWT_SECRET in different routes or collections?
 //we'll use different secret keys for the user and the admin 
@@ -31,23 +30,18 @@ router.post("/signup", async function(req,res){
     const hashedPassword = await bcrypt.hash(password,5); //here 5 rounds of bcryption of password is done
     console.log(hashedPassword);
 
-    try{
         await User.create({ //await to give time to db to fetch and store it
             username,
             password: hashedPassword,
             // password, //now we'll use hashed password using bcrypt
-            email
+            email,
+            purchasedCourses: []
         })
 
         res.json({
             message: "User is successfully logged in."
         })
-    }
-    catch(err){
-        res.status(403).json({
-            error: res.err
-        })
-    }
+
 })
 
 // - user is signed in on the app. Without bcrypt the password
@@ -166,6 +160,7 @@ router.post("/courses/:courseId", userMiddleware, async function(req,res){
             error: err.message, // Include error message for debugging
         });
     }
+
 })
 
 // - user wants to see his/her total purchased courses 

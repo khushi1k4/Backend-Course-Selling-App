@@ -9,7 +9,6 @@ const { Admin, Course } = require("../DB/db");
 router.use(express.json());
 
 const jwt = require("jsonwebtoken");
-// const JWT_ADMINSECRET = 'khushiadminside';
 // => Reason:
 // Why are we using different JWT_SECRET in different routes or collections?
 //we'll use different secret keys for the user and the admin 
@@ -28,9 +27,12 @@ router.post("/signup", async function(req,res){
     const username = req.body.username;
     const password = req.body.password;
 
+    const hashPassword = await bcrypt.hash(password,5); //salted bcrypt password with 5 rounds of complextion
+    console.log(hashPassword);
+
     await Admin.create({
         username: username,
-        password: password
+        password: hashPassword
     })
     // .then(function(){  //if we don't use async await then we use .then method where fxn in arg
     //     res.json({
