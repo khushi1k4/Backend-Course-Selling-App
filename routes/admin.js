@@ -19,11 +19,26 @@ const { JWT_ADMINSECRET } = require("../config");
 // Repeating a variable at two different places or files is a bad practice 
 // so to avoid that we keep it once in config.js otherwise it causes circular dependency.
 
-
 const bcrypt = require("bcrypt");
+const {z} = require("zod");
+const { parse } = require("dotenv");
 
 // - admin wants to sign up on the app
 router.post("/signup", async function(req,res){
+    //validations in input through zod
+    const requireBody = z.object({
+        username: z.string().min(3).max(20),
+        password: z.string().min(6).max(100) 
+    })
+
+    const parseSuccessData = requireBody.safeParse(req.body);
+    if(!parseSuccessData.success){
+        res.json({
+            message: "Incorrect formats"
+        })
+        return
+    }
+
     const username = req.body.username;
     const password = req.body.password;
 

@@ -19,9 +19,25 @@ const { JWT_USERSECRET } = require("../config");
 
 // Zod Validation to do
 const bcrypt = require("bcrypt");
+const {z} = require("zod");
 
 // - user wants to sign up on the app
 router.post("/signup", async function(req,res){
+    // Validation checks of input through zod
+    const requireBody = z.object({
+        username: z.string().min(3).max(20),
+        password: z.string().min(6).max(100),
+        email: z.email().min(3).max(20)
+    })
+
+    const parseSuccessData = requireBody.safeParse(req.body);
+    if(!parseSuccessData.success){
+        res.json({
+            message: "Incorrect formats"
+        })
+        return
+    }
+    
     // const username = req.body.username;
     // const password = req.body.password;
     // const email = req.body.email;
