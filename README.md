@@ -32,38 +32,24 @@ This project demonstrates authentication, role-based access control, input valid
 - zod – Input validation
 
 #### 📂 Folder Structure
+```bash
 course-selling-backend/
-<br/>
 │── models/
-<br/>
 │   ├── Admin.js
-<br/>
 │   ├── User.js
-<br/>
 │   ├── Course.js
-<br/>
 │
-<br/>
 │── routes/
-<br/>
 │   ├── admin.js
-<br/>
 │   ├── user.js
-<br/>
 │
-<br/>
 │── middlewares/
-<br/>
 │   ├── auth.js
-<br/>
 │
-<br/>
 │── app.js
-<br/>
 │── package.json
-<br/>
 │── README.md
-
+```
 
 ### 📌API Endpoints
 
@@ -86,5 +72,38 @@ course-selling-backend/
 - POST /course/purchase → Courses that are being purchase by the user, that user info being added into it too
 - GET /course/preview → View all courses on the platform
 
+### ⚙️ Installation & Setup
+1️⃣ Clone the repository
+```bash
+git clone https://github.com/<your-username>/course-selling-backend.git
+cd course-selling-backend
+```
+2️⃣ Install dependencies
+```bash
+npm install
+```
+3️⃣ Set up environment variables
+```bash
+Create a .env file in the root directory:
+
+touch .env
+```
+
+Add the following variables:
+```bash
+MONGO_URI=<your_mongodb_connection_string>
+JWT_SECRET=<your_secret_key>
+PORT=3000
+```
+4️⃣ Run the server
+```bash
+npm start
+```
+Or for development with nodemon:
+```bash
+npm run dev
+```
+
 <br/>
 # Learnings  # Debugging  # BrainstormAsFirstBugsResolved  # HappyDevelopment
+
